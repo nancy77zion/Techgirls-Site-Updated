@@ -9,14 +9,14 @@ import ProtectedRoutes from './components/ProtectedRoutes'
 import { Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import SharedOutlet from './components/SharedOutlet'
-import './app.css'
+import './App.css'
 
 
 
 function App() {
 
   return (
-      <Routes className='container-fluid'>
+      <Routes>
       <Route path={'/'} element={<SharedOutlet />}>
         <Route index element={<Home />} />
         <Route path={'register'} element={<Register />} />
