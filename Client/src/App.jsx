@@ -1,25 +1,25 @@
 
-import Register from './components/Register'
-import Login from './components/Login'
-import Faq from './components/Faq'
-import About from './components/About'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
+import Faq from './pages/Faq'
+import About from './pages/About'
 import ErrorPage from './components/ErrorPage'
-import Dashboard from './components/Dashboard'
+import Dashboard from './pages/Dashboard'
 import ProtectedRoutes from './components/ProtectedRoutes'
-import { Routes, Route } from 'react-router-dom'
-import Home from './components/Home'
-import SharedOutlet from './components/SharedOutlet'
-import './App.css'
+import {BrowserRouter ,Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import SharedRoute from './components/SharedRoutes'
 
 
 
 function App() {
 
   return (
-      <Routes>
-      <Route path={'/'} element={<SharedOutlet />}>
+      <BrowserRouter>
+        <Routes>
+      <Route path={'/'} element={<SharedRoute />}>
         <Route index element={<Home />} />
-        <Route path={'register'} element={<Register />} />
+        <Route path={'signup'} element={<SignUp />} />
         <Route path={'login'} element={<Login />} />
         <Route path={'About'} element={<About />} />
         <Route path={'faqs'} element={<Faq/>} />
@@ -29,6 +29,8 @@ function App() {
       </Route>
       <Route path={'*'} element={<ErrorPage />} />
     </Routes>
+      </BrowserRouter>
+      
     
   )
 }
