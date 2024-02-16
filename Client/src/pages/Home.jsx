@@ -3,18 +3,17 @@ import lady from '../assets/lady.png'
 
 const Home = () => {
   return (
-    <div className='container-fluid-lg'>
-      <div className='row mx-0 px-4 my-0 bg-emerald-100'>
-      <div className='col mt-4 mt-md-5 '>
-        <h1 className=''>Welcome to Tech<span className='text-success'>Girls</span></h1>
-        <h5>Now learning from anywhere, and build a <span className='text-success text-decoration-underline' style={{fontFamily: 'sans-serif'}}>bright career</span></h5>
-        <p className='pt-3'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam vitae mollitia tenetur corporis. Natus ex nemo dicta obcaecati, sapiente, ut voluptate ratione modi iure accusantium similique, cupiditate dolores. Corrupti, dolorem!</p>
+    <div className='container mx-auto px-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 md:mt-5'>
+        <div className='mt-4 md:mt-0'>
+          <h1 className='text-3xl md:text-4xl font-bold mb-2'>Welcome to Tech<span className='text-success'>Girls</span></h1>
+          <h5 className='text-base md:text-lg'>Now learning from anywhere, and build a <span className='text-success underline font-sans'>bright career</span></h5>
+          <p className='pt-3 text-sm md:text-base'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam vitae mollitia tenetur corporis. Natus ex nemo dicta obcaecati, sapiente, ut voluptate ratione modi iure accusantium similique, cupiditate dolores. Corrupti, dolorem!</p>
+        </div>
+        <div className='mt-3 md:mt-0'>
+          <img src={lady} alt='lady' className='w-full' />
+        </div>
       </div>
-      <div className='lady col mt-3'>
-        <img src={lady} alt='lady' />
-      </div>
-      
-    </div>
     </div>
     
   )
