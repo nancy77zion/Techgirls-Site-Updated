@@ -10,7 +10,7 @@ const SignUp = () => {
     username: '',
     password: '',
     email: '',
-    age: 0,
+    age: '',
     gender: '',
     skills: '',
     bio: '',
@@ -38,12 +38,16 @@ const SignUp = () => {
     <div className="flex justify-center items-center">
       <div className=" my-10 mx-10 w-full md:w-2/3 lg:w-1/2 xl:w-1/3 rounded-md p-6">
         <div className="text-center mb-3">
-          <p className="">Already signed-up? <Link className="text-amber-500" to={'/login'}>Login here</Link></p>
+          <p className="">Already signed-up? <Link className="text-red-700" to={'/login'}>Login here</Link></p>
         </div>
         <form onSubmit={handleSubmit} className="">
           <div className="mb-2">
             <label htmlFor="username" className="">Full Names</label>
             <input type="text" name="username" value={userData.username} onChange={handleChange} className="block w-full shadow shadow-emerald-500 rounded-md p-2" />
+          </div>
+          <div className="mb-2">
+            <label htmlFor="email" className="">Email</label>
+            <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="example@gmail.com" className="w-full shadow shadow-emerald-500 rounded-md p-2" />
           </div>
           <div className="mb-2 relative">
             <label htmlFor="password" className="">Password</label>
@@ -55,12 +59,8 @@ const SignUp = () => {
             </div>
           </div>
           <div className="mb-2">
-            <label htmlFor="email" className="">Email</label>
-            <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="example@gmail.com" className="w-full shadow shadow-emerald-500 rounded-md p-2" />
-          </div>
-          <div className="mb-2">
             <label htmlFor="age" className="">Age</label>
-            <input type="number" name="age" value={userData.age} onChange={handleChange} className="w-full shadow shadow-emerald-500 rounded-md p-2" />
+            <input type="text" name="age" value={userData.age} onChange={handleChange} className="w-full shadow shadow-emerald-500 rounded-md p-2" />
           </div>
           <div className="mb-2">
             <label htmlFor="skills" className="">Choose a skill</label>

@@ -87,7 +87,7 @@ const Header = () => {
         </button>
       </div>
 
-      <div className="flex justify-between items-center px-4 py-7 bg-emerald-200">
+      <div className="flex justify-between items-center px-4 py-4 md:py-7 bg-emerald-200">
       <div className="flex">
         <div className="w-10 ">
         <img src={logo} alt='lady' />
