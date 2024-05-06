@@ -2,20 +2,24 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
 
 app.use(express.json()); // allows you write json objects to body
+app.use(cookieParser()); // allows you access cookies and its contents
 app.use(cors())
 dotenv.config();
 
 const db = require("./models");
 
 //routers
-const userRouter = require("./routes/User.route")
+const userRouter = require("./routes/UserAuth.route")
+const userRouter2 = require("./routes/User.route")
 
 
 
 //endpoint routes
 app.use("/auth", userRouter)
+app.use("/users", userRouter2)
 
 
 //middleware to handle errors
