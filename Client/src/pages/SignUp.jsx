@@ -5,6 +5,7 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios'
+import Oauth from '../components/Oauth';
 
 const SignUp = () => {
  
@@ -13,18 +14,16 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const initialValue = {
-    user_lastname: '',
-    user_firstname: '',
-    user_type: '',
+    user_fullname: '',
+    role: '',
     password: '',
     email: '',
     tick: false
   };
 
   const validationSchema = Yup.object().shape({
-    user_lastname: Yup.string().required('Last name is required'),
-    user_firstname: Yup.string().required('First name is required'),
-    user_type: Yup.string().required('User type is required'),
+    user_fullname: Yup.string().required('fullname is required'),
+    role: Yup.string().required('User type is required'),
     password: Yup.string().required('Password is required'),
     user_email: Yup.string().email('Invalid email').required('Email is required'),
     tick: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
@@ -44,7 +43,7 @@ const SignUp = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <div className=" my-10 mx-10 w-full md:w-2/3 lg:w-1/2 xl:w-1/3 rounded-md p-6">
+      <div className=" my-2 mx-10 w-full md:w-2/3 lg:w-1/2 xl:w-1/3 rounded-md p-6">
         <div className="text-center mb-3">
           <p className="">Already signed-up? <Link className="text-red-700" to={'/login'}>Login here</Link></p>
         </div>
@@ -55,19 +54,14 @@ const SignUp = () => {
       >
         <Form className="">
           <div className="mb-2">
-          <label>Last Name:</label>
-            <Field type="text" name="user_lastname" className="block w-full shadow shadow-emerald-500 rounded-md p-2" />
-            <ErrorMessage name="user_lastname" component="span" className='text-red-600 font-extralight text-xs'/>
-          </div>
-          <div className="mb-2">
-          <label>First Name:</label>
-            <Field type="text" name="user_firstname" className="block w-full shadow shadow-emerald-500 rounded-md p-2" />
-            <ErrorMessage name="user_firstname" component="span" className='text-red-600 font-extralight text-xs' />
+          <label>Full Name:</label>
+            <Field type="text" name="user_fullname" className="block w-full shadow shadow-emerald-500 rounded-md p-2" />
+            <ErrorMessage name="user_fullname" component="span" className='text-red-600 font-extralight text-xs' />
           </div>
           <div className="mb-2">
               <label>Student or Instructor:</label>
-              <Field type="text" name="user_type" className="block w-full shadow shadow-emerald-500 rounded-md p-2" />
-              <ErrorMessage name="user_type" component="span" className='text-red-600 font-extralight text-xs'/>
+              <Field type="text" name="role" className="block w-full shadow shadow-emerald-500 rounded-md p-2" />
+              <ErrorMessage name="role" component="span" className='text-red-600 font-extralight text-xs'/>
             </div>
           <div className="mb-2">
             <label className="">Email</label>
@@ -92,6 +86,7 @@ const SignUp = () => {
           <div className="mb-2">
             <button type="submit" className=" w-full bg-emerald-600 text-white py-2 rounded-md transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-emerald-400 duration-300 ...">Submit</button>
           </div>
+          <Oauth />
         </Form>
         </Formik>
       </div>
