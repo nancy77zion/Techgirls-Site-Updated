@@ -6,11 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    user_lastname: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    user_firstname: {
+    user_fullname: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -18,13 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    user_type: {
+    role: {
       type: DataTypes.ENUM('student', 'instructor'),
       allowNull: false
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'
     }
   })
 

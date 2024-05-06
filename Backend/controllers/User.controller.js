@@ -1,81 +1,47 @@
 
 const bcrypt = require("bcrypt");
 const { Users } = require("../models"); //destructure the table name from the model
-const { sign } = require("jsonwebtoken");
 const errorHandler = require("../middlewares/error")
 
-// Register function
-const register = async (req, res , next) => {
- 
+const  updateUser = async (req, res, next) => {
+  //res.send('hello world')
   try {
-    const { user_lastname, user_firstname, user_email, user_type, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const userId = req.user.id;
+    const requestedUserId = req.params.id;
 
-    await Users.create({
-      user_lastname,
-      user_firstname,
-      user_email,
-      user_type,
-      password: hashedPassword,
-    });
-
-    
-  res.send("register successfully");
-    
-  } catch (error) {
-    // console.error('Error occurred:', error);
-    // res.status(500).json({ error: 'Internal server error' });
-    next(error); //middleware from index.js
-  }
-  
-}
-
-// login function
-const login = async (req, res, next) => {
-  try {
-    const { user_email, password } = req.body;
-
-    const userQuery = await Users.findOne({
-      where: { user_email: user_email},
-    });
-
-    if (!userQuery) {
-      return next(errorHandler(401, "User not found"));
-      //return res.json({ error: "User does not exist" });
+    if (userId !== requestedUserId) {
+      return next(errorHandler(401, 'You can only update your own account!'));
     }
 
-    // Compare the password from user input and password in the table
-    bcrypt.compare(password, userQuery.password).then((isMatch) => {
-      if (!isMatch) {
-        return next(errorHandler(401, "Wrong email and password"))
-        //return res.json({ error: "Wrong email and password" });
-      }
+    const updatedFields = {};
 
-      // generate web token for user after successful login
+    if (req.body.password) {
+      updatedFields.password = bcrypt.hash(req.body.password, 10);
+    }
 
-      const accessToken = sign(
-        { user_id: userQuery.user_id},
-        process.env.JWT_TOKEN
-      ); //using the id of the user to generate web token
+    updatedFields.username = req.body.username;
+    updatedFields.email = req.body.email;
+    //updatedFields.avatar = req.body.avatar;
 
-      const { password: pass, ...restInfo } = userQuery._previousDataValues;
-
-      // Set the access token as a cookie
-      res.cookie("access_token", accessToken, {
-        httpOnly: true, // Cookie cannot be accessed via client-side scripts
-        secure: process.env.NODE_ENV === "production", // Cookie sent over HTTPS only in production
-        sameSite: "strict", // Cookie not sent in cross-origin requests
-        maxAge: 24 * 60 * 60 * 1000, // Cookie expires in 24 hours (optional)
-      })
-      .status(200).json(restInfo)
-
-      // Send the response with user information
-      //res.status(200).json(accessToken);
+    const [updatedRowCount] = await Users.update(updatedFields, {
+      where: { id: requestedUserId },
     });
-  } catch (error) {
-    console.error("Error logging in:", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
 
-module.exports = { login, register };
+    if (updatedRowCount === 0) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    const updatedUser = await Users.findByPk(requestedUserId, {
+      attributes: { exclude: ['password'] },
+    });
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+
+}
+
+
+
+module.exports = {updateUser}
