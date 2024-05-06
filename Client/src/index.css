@@ -8,6 +8,24 @@
   box-sizing: border-box;
 }
 
+.typing-animation {
+  animation: typing 1s steps(40, end), blink-caret 0.75s infinite;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #000;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #000 }
+}
+
+
 @media screen and (min-width: 375px) and (max-width: 600px) {
   .lg-menu {
     display: none;

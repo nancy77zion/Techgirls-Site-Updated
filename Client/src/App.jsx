@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={"/"} element={<SharedRoute />}>
+        <Route path="/" element={<SharedRoute />}>
           <Route index element={<Home />} />
           <Route path={"signup"} element={<SignUp />} />
           <Route path={"login"} element={<Login />} />
