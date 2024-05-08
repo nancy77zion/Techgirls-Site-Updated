@@ -4,6 +4,7 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
+import Oauth from '../components/Oauth';
 
 const Login = () => {
   const [show, setShow] = useState(true);
@@ -19,11 +20,22 @@ const Login = () => {
   const handleSubmit = async (data) => {
     try {
       const response = await axios.post("http://localhost:4005/auth/login", data);
+      console.log(data);
       if (response.data.error) {
         alert(response.data.error);
+      } else if (response.data.success === true) {
+        sessionStorage.setItem('fullname', response.data.result.user_fullname);
+        sessionStorage.setItem('id', response.data.result.user_id);
+        sessionStorage.setItem('role', response.data.result.role);
+          if(response.data.result.role === 'admin'){
+          navigate('/')
+        } 
+        if(response.data.result.role === 'student'){
+          navigate('/dashboard')
+        } 
+
       } else {
-        localStorage.setItem("accessToken", response.data);
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       console.error("Error logging in:", error.message);
@@ -59,6 +71,7 @@ const Login = () => {
               <div className="mb-4">
                 <button type="submit" className="w-full bg-emerald-600 text-white py-2 rounded-md transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-emerald-400 duration-300 ...">Submit</button>
               </div>
+              <Oauth />
             </Form>
           </Formik>
         </div>
