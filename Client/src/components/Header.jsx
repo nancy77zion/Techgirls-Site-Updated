@@ -1,9 +1,9 @@
 // //import React from 'react'
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from '../assets/T-orange.png';
-
+//import axios from "axios";
 
 const Menu = () => {
   
@@ -70,7 +70,15 @@ const Menu = () => {
 const Header = () => {
   const [show, setShow] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userPhotoUrl, setUserPhotoUrl] = useState('');
 
+
+  useEffect(() => {
+    const avatar = sessionStorage.getItem('avatar');
+    setUserPhotoUrl(avatar);
+  }, []);
+
+  
   return (
     <>
       <div className=" bg-emerald-200">
@@ -138,8 +146,8 @@ const Header = () => {
               >
                 <img
                   className="h-8 w-8 rounded-full"
-                  src="https://plus.unsplash.com/premium_photo-1688740375397-34605b6abe48?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
+                  src={userPhotoUrl ? userPhotoUrl : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"}
+                  alt="User Photo"
                 />
               </button>
             </div>

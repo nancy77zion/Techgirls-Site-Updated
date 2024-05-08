@@ -27,12 +27,16 @@ const Login = () => {
         sessionStorage.setItem('fullname', response.data.result.user_fullname);
         sessionStorage.setItem('id', response.data.result.user_id);
         sessionStorage.setItem('role', response.data.result.role);
-          if(response.data.result.role === 'admin'){
-          navigate('/')
+        sessionStorage.setItem('avatar', response.data.result.avatar);
+        if(response.data.result.role === 'admin'){
+          navigate('/adminBoard');
         } 
         if(response.data.result.role === 'student'){
           navigate('/dashboard')
         } 
+        if(response.data.result.role === 'instructor'){
+          navigate('/instructorBoard')
+        }
 
       } else {
         navigate("/");

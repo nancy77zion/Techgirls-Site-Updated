@@ -8,6 +8,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SharedRoute from "./components/SharedRoutes";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
           <Route path={"login"} element={<Login />} />
           <Route path={"About"} element={<About />} />
           <Route path={"faqs"} element={<Faq />} />
-          <Route element={<ProtectedRoutes />}>
           <Route path={"dashboard"} element={<Dashboard />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path={"/profile"} element={<Profile />} />
           </Route>
         </Route>
         <Route path={"*"} element={<ErrorPage />} />
