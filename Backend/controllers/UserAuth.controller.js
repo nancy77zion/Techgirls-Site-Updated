@@ -8,14 +8,13 @@ const errorHandler = require("../middlewares/error")
 const register = async (req, res , next) => {
  
   try {
-    const { user_lastname, user_firstname, user_email, user_type, password } = req.body;
+    const { user_fullname, user_email, role, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10)
 
     await Users.create({
-      user_lastname,
-      user_firstname,
+      user_fullname,
       user_email,
-      user_type,
+      role,
       password: hashedPassword,
     });
 
@@ -63,11 +62,12 @@ const login = async (req, res, next) => {
       // Set the access token as a cookie
       res.cookie("access_token", accessToken, {
         httpOnly: true, // Cookie cannot be accessed via client-side scripts
-        secure: process.env.NODE_ENV === "production", // Cookie sent over HTTPS only in production
-        sameSite: "strict", // Cookie not sent in cross-origin requests
         maxAge: 24 * 60 * 60 * 1000, // Cookie expires in 24 hours (optional)
       })
-      .status(200).json(restInfo) //send response without password
+      .status(200).json({
+        success: true,
+        result: restInfo
+      }) //send response without password
       // Send the response with user information
       //res.status(200).json(accessToken);
     });
@@ -77,4 +77,52 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { login, register };
+const google = async (req, res, next) => {
+
+  try {
+    const { user_email} = req.body;
+
+    const googleUser = await Users.findOne({
+      where: { user_email: user_email},
+    });
+    if (googleUser) {
+      const accessToken = jwt.sign({ id: googleUser._id }, process.env.JWT_SECRET);       
+
+      const { password: pass, ...rest } = googleUser._previousDataValues;
+      res
+        .cookie("access_token", accessToken, { httpOnly: true })
+        .status(200)
+        .json(rest);
+    } else {
+      /* because with google signup passwords are needed but on the schema its required we need to generate a password for the user later the user may choose to update it */
+       // if the user is not found generate a password for the user and create
+       const generatedPassword =
+       Math.random().toString(36).slice(-8) +
+       Math.random().toString(36).slice(-8); //random number and letters 0-9 & a-z
+
+     const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+
+     const newUser = new Users({
+       user_fullname:
+         req.body.name.split(" ").join("").toLowerCase() +
+         Math.random().toString(36).slice(-4),
+       user_email: req.body.email,
+       password: hashedPassword,
+       avatar: req.body.photo,
+     });
+
+     await newUser.save();
+     const accessToken = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+     const { password: pass, ...rest } = newUser._previousDataValues;
+     res
+       .cookie('access_token', accessToken, { httpOnly: true })
+       .status(200)
+       .json(rest);
+
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { login, register, google };
