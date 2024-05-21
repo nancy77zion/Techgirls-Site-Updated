@@ -1,7 +1,7 @@
 
-import lady from "../assets/lady.png";
-import cert from "../assets/shape-1.svg";
-import book from "../assets/shape-3.svg";
+import lady from "../assets/images/lady.png";
+import cert from "../assets/images/shape-1.svg";
+import book from "../assets/images/shape-3.svg";
 import '../index.css';
 
 const Home = () => {

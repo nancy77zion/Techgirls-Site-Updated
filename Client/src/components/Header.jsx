@@ -2,7 +2,7 @@
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import logo from '../assets/T-orange.png';
+import logo from '../assets/images/T-orange.png';
 //import axios from "axios";
 
 const Menu = () => {
