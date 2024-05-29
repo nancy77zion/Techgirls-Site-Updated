@@ -11,7 +11,7 @@ const register = async (req, res , next) => {
     const { user_fullname, user_email, role, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    await Users.create({
+    const newUser =await Users.create({
       user_fullname,
       user_email,
       role,
@@ -19,7 +19,10 @@ const register = async (req, res , next) => {
     });
 
     
-  res.send("register successfully");
+    res.status(200).json({
+      success: true,
+      result: newUser,
+  });
     
   } catch (error) {
     // console.error('Error occurred:', error);
@@ -113,11 +116,11 @@ const google = async (req, res, next) => {
 
      await newUser.save();
      const accessToken = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-     const { password: pass, ...rest } = newUser._previousDataValues;
+     const { password: pass, ...restInfo } = newUser._previousDataValues;
      res
        .cookie('access_token', accessToken, { httpOnly: true })
        .status(200)
-       .json(rest);
+       .json({result: restInfo, success: true});
 
     }
   } catch (error) {
@@ -125,4 +128,24 @@ const google = async (req, res, next) => {
   }
 }
 
-module.exports = { login, register, google };
+//log out
+const logout = async (req, res, next) => {
+  try {
+    const { user_id }= req.body
+    const user = await Users.findOne({
+      where: { user_id: user_id }
+    });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    // Clear the access token cookie
+    res.clearCookie('access_token');
+    res.status(200).json({ success: true, message: 'Logout successful' });
+  } catch (error) {
+    // Handle errors
+    console.error('Error logging out:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+module.exports = { login, register, google, logout };

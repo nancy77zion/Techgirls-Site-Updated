@@ -14,12 +14,14 @@ const db = require("./models");
 //routers
 const userRouter = require("./routes/UserAuth.route")
 const userRouter2 = require("./routes/User.route")
+const courseRouter = require("./routes/Course.route")
 
 
 
 //endpoint routes
 app.use("/auth", userRouter)
 app.use("/users", userRouter2)
+app.use("/course", courseRouter)
 
 
 //middleware to handle errors

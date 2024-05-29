@@ -5,9 +5,9 @@ const { updateUser, getUserById,  } = require('../controllers/User.controller.js
 
 const routerManager2 = express.Router();
 
-routerManager2.post('/update/:id', verifyToken, updateUser)
-// router.delete('/delete/:id', verifyToken, deleteUser)
-// router.get('/all/:id', verifyToken, geAlltUser)
-routerManager2.get('you/:id', verifyToken, getUserById)
+routerManager2.put('/:id', verifyToken, updateUser)
+// routerManager.delete('/:id', verifyToken, deleteUser)
+// routerManager.get('/', verifyToken, geAlltUser)
+routerManager2.get('/:id', verifyToken, getUserById)
 
 module.exports = routerManager2;
