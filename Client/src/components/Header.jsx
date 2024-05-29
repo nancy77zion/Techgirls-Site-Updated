@@ -2,11 +2,11 @@
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import logo from '../assets/images/T-orange.png';
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/T-orange.png";
 //import axios from "axios";
 
 const Menu = () => {
-  
   return (
     <div className=" d-flex flex-column flex-md-row">
       <NavLink
@@ -38,12 +38,12 @@ const Menu = () => {
       </NavLink>
       <NavLink
         className="px-3 text-decoration-none hover:bg-white"
-        to={"/dashboard"}
+        to={"/course"}
         style={({ isActive }) =>
           isActive ? { color: "#ff9700" } : { color: "#0c7616" }
         }
       >
-        My Courses
+        Courses
       </NavLink>
       <NavLink
         className="px-3 text-decoration-none hover:bg-white"
@@ -70,15 +70,15 @@ const Menu = () => {
 const Header = () => {
   const [show, setShow] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [userPhotoUrl, setUserPhotoUrl] = useState('');
+  const [userPhotoUrl, setUserPhotoUrl] = useState("");
 
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const avatar = sessionStorage.getItem('avatar');
+    const avatar = sessionStorage.getItem("avatar");
     setUserPhotoUrl(avatar);
   }, []);
 
-  
   return (
     <>
       <div className=" bg-emerald-200">
@@ -146,7 +146,11 @@ const Header = () => {
               >
                 <img
                   className="h-8 w-8 rounded-full"
-                  src={userPhotoUrl ? userPhotoUrl : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"}
+                  src={
+                    userPhotoUrl
+                      ? userPhotoUrl
+                      : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                  }
                   alt="User Photo"
                 />
               </button>
@@ -160,9 +164,9 @@ const Header = () => {
                 aria-labelledby="user-menu-button"
                 tabIndex="-1"
               >
-              <NavLink
+                <NavLink
                   to={"/profile"}
-                  className="block px-4 py-2 text-sm text-white"
+                  className="block px-4 py-2 text-white hover:bg-emerald-400 font-bold  rounded"
                   role="menuitem"
                   tabIndex="-1"
                   id="user-menu-item-0"
@@ -170,15 +174,24 @@ const Header = () => {
                   Your Profile
                 </NavLink>
                 <NavLink
+                  to={"/dashboard"}
+                  className="block px-4 py-2 text-white hover:bg-emerald-400 font-bold  rounded"
+                  role="menuitem"
+                  tabIndex="-1"
+                  id="user-menu-item-1"
+                >
+                  my learning
+                </NavLink>
+                <NavLink
                   to={"/settings"}
-                  className="block px-4 py-2 text-sm text-white"
+                  className="block px-4 py-2 text-white hover:bg-emerald-400 font-bold  rounded"
                   role="menuitem"
                   tabIndex="-1"
                   id="user-menu-item-1"
                 >
                   Settings
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                   to={"/logout"}
                   className="block px-4 py-2 text-sm text-white"
                   role="menuitem"
@@ -186,7 +199,17 @@ const Header = () => {
                   id="user-menu-item-2"
                 >
                   Sign out
-                </NavLink>
+                </NavLink> */}
+                <button
+                  className="block hover:bg-emerald-400 text-white font-bold py-2 px-4 rounded"
+                  type="button"
+                  onClick={() => {
+                    sessionStorage.removeItem("fullname");
+                    navigate("/login");
+                  }}
+                >
+                  Sign Out
+                </button>
               </div>
             )}
           </div>
